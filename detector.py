@@ -21,7 +21,11 @@ def Detector(input_path, output_path):
 
 
 if __name__ == '__main__':
-    # filename = os.getcwd() + '/dataset/cartoon_dataset/cartoon_train/000001.jpg'
-    for i in range(100, 1000):
-        filename = os.getcwd() + '/dataset/cartoon_dataset/cartoon_train/001{}.jpg'.format(i)
-        Detector(filename, os.getcwd() + '/output/{}.jpg'.format(i))
+    test_img_dir = os.getcwd() + '/dataset/cartoon_dataset/cartoon_test'  # 测试集目录
+    pathes = []
+    for path, dir_list, file_list in os.walk(test_img_dir):
+        pathes = [os.path.join(path, x) for x in file_list]
+    pathes.sort()  # 文件名升序排列
+    for file_name in pathes:
+        short_path = file_name.split('/')[-1]
+        Detector(file_name, os.getcwd() + '/output/{}.jpg'.format(short_path))

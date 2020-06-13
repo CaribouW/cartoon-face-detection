@@ -12,8 +12,9 @@ cascade_path = cwd + '/data/cascade.xml'
 # ground_truth 文件
 ground_truth_path = cwd + '/train.txt'
 # 最终结果生成文件
-predict_path = cwd + '/predict.txt'
-test_image_dir = cwd + '/dataset/cartoon_dataset/cartoon_train'
+predict_path = cwd + '/test.txt'
+
+test_image_dir = cwd + '/dataset/cartoon_dataset/cartoon_test'
 
 iou_threshold = 0.7
 
@@ -29,25 +30,26 @@ def predict(input_path):
     return res
 
 
-def prediction():
+def prediction(test_img_dir):
     """
     生成predict.txt文件
     :return:
     """
+    pathes = []
+    for path, dir_list, file_list in os.walk(test_img_dir):
+        pathes = [os.path.join(path, x) for x in file_list]
+    pathes.sort()  # 文件名升序排列
     log.logger.info('=======Prediction start.......==============')
-    with open(ground_truth_path) as f:
-        lines = f.readlines()
-    lines = [line.split(',')[0] for line in lines]
-    line_cnt = len(lines)
+    line_cnt = len(pathes)
     idx = 0
     # clean up
     os.system('rm -rf {}'.format(predict_path))
-    for file_path in lines:
-        abs_path = os.path.join(test_image_dir, file_path)
-        predict_bboxes = predict(abs_path)  # 当前图片里面所有的预测脸, xmin,ymin,xmax,ymax
+    for file_path in pathes:
+        short_path = file_path.split('/')[-1]
+        predict_bboxes = predict(file_path)  # 当前图片里面所有的预测脸, xmin,ymin,xmax,ymax
         with open(predict_path, 'a') as f:
             for box in predict_bboxes:
-                content = ','.join([file_path, *[str(pos) for pos in box]])
+                content = ','.join([short_path, *[str(pos) for pos in box]])
                 f.write(content + '\n')
         if idx % 100 == 0:
             log.logger.info('finish predict:\t%d/%d' % (idx, line_cnt))
@@ -108,5 +110,5 @@ def evaluation():
 
 
 if __name__ == '__main__':
-    prediction()
+    prediction(test_image_dir)
     evaluation()
