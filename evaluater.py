@@ -1,5 +1,5 @@
 import os
-
+import sys
 import cv2
 import numpy as np
 
@@ -110,5 +110,11 @@ def evaluation():
 
 
 if __name__ == '__main__':
-    prediction(test_image_dir)
-    evaluation()
+    # prediction(test_image_dir)
+    if len(sys.argv) >= 2:
+        if sys.argv[1] == 'prediction':
+            prediction(test_image_dir)
+        elif sys.argv[1] == 'evaluation':
+            evaluation()
+    else:
+        prediction(test_image_dir)
