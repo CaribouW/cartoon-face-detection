@@ -44,7 +44,7 @@ def prediction():
     os.system('rm -rf {}'.format(predict_path))
     for file_path in lines:
         abs_path = os.path.join(test_image_dir, file_path)
-        predict_bboxes = predict(abs_path)  # 当前图片里面所有的预测脸
+        predict_bboxes = predict(abs_path)  # 当前图片里面所有的预测脸, xmin,ymin,xmax,ymax
         with open(predict_path, 'a') as f:
             for box in predict_bboxes:
                 content = ','.join([file_path, *[str(pos) for pos in box]])

@@ -29,4 +29,3 @@ if __name__ == '__main__':
             content_str = '\n'.join(contents)
             out.write(content_str + '\n')
         img_idx += 1
-    pass

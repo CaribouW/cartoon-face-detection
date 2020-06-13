@@ -8,7 +8,7 @@ VEC_PATH = pos.vec
 W_H_PARAMS = -w 24 -h 24
 idx = 0
 # 训练flags配置
-TRAIN_FLAGS = -numPos 8000 -numNeg 24000  -numStages 15  -featureType LBP ${W_H_PARAMS} -minHitRate 0.995 -maxFalseAlarmRate 0.4 -numThreads 8 -maxWeakCount 500
+TRAIN_FLAGS = -numPos 8000 -numNeg 24000  -numStages 13  -featureType LBP ${W_H_PARAMS} -minHitRate 0.995 -maxFalseAlarmRate 0.4 -numThreads 8 -maxWeakCount 500
 
 # TRAIN_FLAGS = -numPos 5000 -numNeg 15000 -numStages 15 -featureType LBP ${W_H_PARAMS} -minHitRate 0.995 -maxFalseAlarmRate 0.45  # 最终结果 F1 = 0.39 , 24 \times 24
 
@@ -31,7 +31,7 @@ gen_sample:
 
 # 训练, 日志保存在log.txt
 train:
-	rm -rf ${DATA_DIR}/*
+# 	rm -rf ${DATA_DIR}/*
 	${CV_PATH}/opencv_traincascade -data ${DATA_DIR} -vec ${VEC_PATH} -bg ${MIDDLE_DIR}/neg.txt ${TRAIN_FLAGS}
 
 evaluate:
