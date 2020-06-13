@@ -1,2 +1,6 @@
 middle_data_set/
+dataset/
 *.zip
+.idea
+output
+data
